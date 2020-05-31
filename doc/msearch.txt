@@ -127,16 +127,28 @@ Mappings                                *msearch-mappings*
 ==============================================================================
 Functions			                 	*msearch-functions*
 
-                                        *msearch#list*
-msearch#list()
-    Returns a List containing all search pattern. Can be used
-
-
                                         *msearch#define_highlight*
 msearch#define_highlight(force)
     Defines the highlight groups for msearch. You would only want to call this
     function (with force=v:true) if mesarch's highlight groups get cleared. See
     |msearch-missing-highlight|.
+
+                                        *msearch#list*
+msearch#list()
+    Returns a List containing all search patterns.
+
+
+                                        *msearch#joint_pattern*
+msearch#joint_pattern()
+    Returns a string containing all search patterns joined by '\|'. Can be used
+    with other plugins such as |visual-multi|. For e.g., starting it selecting
+    all highlighted patterns.
+>
+    function! s:SelectAllMark()
+        call feedkeys("\<Plug>(VM-Start-Regex-Search)".join(msearch#joint_pattern())."\<cr>")
+        call feedkeys("\<Plug>(VM-Select-All)")
+    endfunction
+    nmap <leader>r :call <sid>SelectAllMark()<cr>
 
 ==============================================================================
 Options    			                 	*msearch-options*

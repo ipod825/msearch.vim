@@ -35,6 +35,17 @@ nmap / <Plug>MSAddBySearchForward
 nmap ? <Plug>MSAddBySearchBackward
 ```
 
+## Integration with vim-visual-multi
+------------
+This plugin can be integrated with [vim-visual-multi](https://github.com/mg979/vim-visual-multi) to add multiple cursor on the highlighted patterns:
+```vim
+function! s:SelectAllMark()
+    call feedkeys("\<Plug>(VM-Start-Regex-Search)".join(msearch#joint_pattern())."\<cr>")
+    call feedkeys("\<Plug>(VM-Select-All)")
+endfunction
+nmap <leader>r :call <sid>SelectAllMark()<cr>
+```
+
 ## Installation
 ------------
 
