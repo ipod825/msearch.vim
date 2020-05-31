@@ -1,0 +1,168 @@
+msearch*.txt* Search multiple targets in vim.
+                                                                        *msearch*
+    ███╗   ███╗███████╗███████╗ █████╗ ██████╗  ██████╗██╗  ██╗
+    ████╗ ████║██╔════╝██╔════╝██╔══██╗██╔══██╗██╔════╝██║  ██║
+    ██╔████╔██║███████╗█████╗  ███████║██████╔╝██║     ███████║
+    ██║╚██╔╝██║╚════██║██╔══╝  ██╔══██║██╔══██╗██║     ██╔══██║
+    ██║ ╚═╝ ██║███████║███████╗██║  ██║██║  ██║╚██████╗██║  ██║
+    ╚═╝     ╚═╝╚══════╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝
+
+===============================================================================
+CONTENTS				    *msearch-help-contents*
+
+Introduction                |msearch-introduction|
+Mappings                    |msearch-mappings|
+Functions                   |msearch-functions|
+Options                     |msearch-options|
+TroubleShooting             |msearch-issues|
+    Missing highlight       |msearch-missing-highlight|
+
+==============================================================================
+INTRODUCTION				*msearch-introduction*
+
+msearch.vim enables user to highlight multiple search patterns. It's useful for
+code tracing for source code with very long variable names. msearch.vim is
+highly inspired by the vim-mark plugin but is developed with a dedicated
+workflow bared in mind:
+
+1. The mappings `/`, `?`, `n`, `N`, `*` should work as in vanilla vim.
+2. Extend `/` and `?` maintaing a list of searched patterns.
+3. Extend `n` and `N` with an extra mode to jump on multiple searched patterns.
+4. Extend `*` with an extra mode to highlight multiple searched patterns.
+
+The result is a more compact but easy-to-use user interface (possibly missing
+some functionalities in vim-mark which doesn't involve the aforementioned
+workflow). msearch.vim provides no default mapping, users can map all plugin
+mappings to suit their work-flow need. A suggested mapping is as follows:
+
+>
+    " Mapping 8 might be controversial. But it's unlikely that you would use
+    it as |count|. To goto a line, instead of 8|G|, you can do :8 instead.
+    nmap 8 <Plug>MSToggleAdd
+    nmap * <Plug>MSExclusiveAdd
+    vmap 8 <Plug>MSVisualToggleAdd
+    vmap * <Plug>MSVisualExclusiveAdd
+    nmap <leader>/ <Plug>MSClear
+
+    " If you don't mind remember two mappings for two searching modes...
+    nmap n <Plug>MSCurNext
+    nmap N <Plug>MSCurPrev
+    nmap <leader>n <Plug>MSAllNext
+    nmap <leader>N <Plug>MSAllPrev
+
+    " Otherwise, you might like the following setting which toggles the two
+    " searching modes with a single mapping.
+    nmap n <Plug>MSNext
+    nmap N <Plug>MSPrev
+    nmap <leader>n <Plug>MSToggleJump
+
+    nmap / <Plug>MSAddBySearchForward
+    nmap ? <Plug>MSAddBySearchBackward
+
+==============================================================================
+Mappings                                *msearch-mappings*
+
+                                        *MSToggleAdd*
+<Plug>MSToggleAdd
+    Add or remove word-under-cursor (|<cword>|).
+
+                                        *MSExclusiveAdd*
+<Plug>MSExclusiveAdd
+    Clear all search patterns and then add the word-under-cursor.
+
+
+                                        *MSVisualToggleAdd*
+<Plug>MSVisualToggleAdd
+    Same as |MSToggleAdd| but in visual mode.
+
+                                        *MSVisualExclusiveAdd*
+<Plug>MSVisualExclusiveAdd
+    Same as |MSExclusiveAdd| but in visual mode.
+
+                                        *MSClear*
+<Plug>MSClear
+    Clear all search patterns.
+
+                                        *MSCurNext*
+<Plug>MSCurNext
+    Search forward for the current pattern. If you want to change the pattern to
+    be searched, put your cursor to a highlighted pattern and then issue this
+    mapping.
+
+                                        *MSCurPrev*
+<Plug>MSCurPrev
+    Same as |MSCurNext|, but search backward.
+
+                                        *MSAllNext*
+<Plug>MSAllNext
+    Search forward for all patterns.
+
+                                        *MSAllPrev*
+<Plug>MSAllPrev
+    Same as |MSAllNext|, but search backward.
+
+                                        *MSNext*
+<Plug>MSNext
+    Search forward for either all patterns or the current pattern, which is
+    controled by |MSToggleJump|.
+
+                                        *MSPrev*
+<Plug>MSPrev
+    Same as |MSNext|, but search backward.
+
+                                        *MSToggleJump*
+<Plug>MSToggleJump
+    Switch between searching all patterns or the current pattern. Affect the
+    behaviour of |MSNext| and |MSPrev|.
+
+                                        *MSAddBySearchForward*
+<Plug>MSAddBySearchForward
+    Strat searching with |/|. When hit enter, add the searched pattern.
+
+                                        *MSAddBySearchBackward*
+<Plug>MSAddBySearchBackward
+    Same as |MSAddBySearchForward|, but searches with |?|.
+
+
+==============================================================================
+Functions			                 	*msearch-functions*
+
+                                        *msearch#list*
+msearch#list()
+    Returns a List containing all search pattern. Can be used
+
+
+                                        *msearch#define_highlight*
+msearch#define_highlight(force)
+    Defines the highlight groups for msearch. You would only want to call this
+    function (with force=v:true) if mesarch's highlight groups get cleared. See
+    |msearch-missing-highlight|.
+
+==============================================================================
+Options    			                 	*msearch-options*
+
+                                        *g:Msearch_palette_fn*
+A |Functref| that returns a list of highlight commands. One can modify the
+defualt paletee or rewrite a whole new one. Example:
+
+>
+    function! s:mypal()
+        let l:orig = msearch#palettes#default()
+        let l:orig[1] = l:orig[0]
+        let l:orig[2] = 'ctermbg=Green ctermfg=Black guibg=#A4E57E guifg=Black'
+        return l:orig
+    endfunction
+    let g:Msearch_palette_fn = function('s:mypal')
+
+==============================================================================
+TroubleShooting			            	*msearch-issues*
+
+Missing highlight                       *msearch-missing-highlight*
+If for some reason (usually caused by the colorscheme command), the highlight
+of msearch gets cleared (can be verified by `hi MSMatch0`). You can run this
+command to redefine the highlight:
+>
+    :call msearch#define_highlight(v:true)
+
+==============================================================================
+vim:tw=78:et:ft=help:norl:
