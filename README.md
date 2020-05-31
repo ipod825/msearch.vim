@@ -13,10 +13,10 @@ The result is a more compact but easy-to-use user interface (possibly missing so
 ```vim
 " Mapping 8 might be controversial. But it's unlikely that you would use
 " it as |count|. To goto a line, instead of 8|G|, you can do :8 instead.
-nmap 8 <Plug>MSToggleAdd
-nmap * <Plug>MSExclusiveAdd
-vmap 8 <Plug>MSVisualToggleAdd
-vmap * <Plug>MSVisualExclusiveAdd
+nmap 8 <Plug>MSToggleAddCword
+nmap * <Plug>MSExclusiveAddCword
+vmap 8 <Plug>MSToggleAddVisual
+vmap * <Plug>MSExclusiveAddVisual
 nmap <leader>/ <Plug>MSClear
 
 " If you don't mind remember two mappings for two searching modes...

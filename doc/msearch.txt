@@ -38,10 +38,10 @@ mappings to suit their work-flow need. A suggested mapping is as follows:
 >
     " Mapping 8 might be controversial. But it's unlikely that you would use
     it as |count|. To goto a line, instead of 8|G|, you can do :8 instead.
-    nmap 8 <Plug>MSToggleAdd
-    nmap * <Plug>MSExclusiveAdd
-    vmap 8 <Plug>MSVisualToggleAdd
-    vmap * <Plug>MSVisualExclusiveAdd
+    nmap 8 <Plug>MSToggleAddCword
+    nmap * <Plug>MSExclusiveAddCword
+    vmap 8 <Plug>MSToggleAddVisual
+    vmap * <Plug>MSExclusiveAddVisual
     nmap <leader>/ <Plug>MSClear
 
     " If you don't mind remember two mappings for two searching modes...
@@ -62,22 +62,22 @@ mappings to suit their work-flow need. A suggested mapping is as follows:
 ==============================================================================
 Mappings                                *msearch-mappings*
 
-                                        *MSToggleAdd*
-<Plug>MSToggleAdd
+                                        *MSToggleAddCword*
+<Plug>MSToggleAddCword
     Add or remove word-under-cursor (|<cword>|).
 
-                                        *MSExclusiveAdd*
-<Plug>MSExclusiveAdd
+                                        *MSExclusiveAddCword*
+<Plug>MSExclusiveAddCword
     Clear all search patterns and then add the word-under-cursor.
 
 
-                                        *MSVisualToggleAdd*
-<Plug>MSVisualToggleAdd
-    Same as |MSToggleAdd| but in visual mode.
+                                        *MSToggleAddVisual*
+<Plug>MSToggleAddVisual
+    Same as |MSToggleAddCword| but in visual mode.
 
-                                        *MSVisualExclusiveAdd*
-<Plug>MSVisualExclusiveAdd
-    Same as |MSExclusiveAdd| but in visual mode.
+                                        *MSExclusiveAddVisual*
+<Plug>MSExclusiveAddVisual
+    Same as |MSExclusiveAddCword| but in visual mode.
 
                                         *MSClear*
 <Plug>MSClear

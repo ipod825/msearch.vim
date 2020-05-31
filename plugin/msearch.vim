@@ -7,10 +7,10 @@ let g:msearch#loaded = 1
 let s:save_cpo = &cpo
 set cpo&vim
 
-noremap <silent> <unique> <script> <Plug>MSToggleAdd :call msearch#toggle_add(v:false)<cr>
-noremap <silent> <unique> <script> <Plug>MSExclusiveAdd :call msearch#exclusive_add(v:false)<cr>
-noremap <silent> <unique> <script> <Plug>MSVisualToggleAdd :<c-u>call msearch#toggle_add(v:true)<cr>
-noremap <silent> <unique> <script> <Plug>MSVisualExclusiveAdd :<c-u>call msearch#exclusive_add(v:true)<cr>
+noremap <silent> <unique> <script> <Plug>MSToggleAddCword :call msearch#toggle_add(v:false)<cr>
+noremap <silent> <unique> <script> <Plug>MSExclusiveAddCword :call msearch#exclusive_add(v:false)<cr>
+noremap <silent> <unique> <script> <Plug>MSToggleAddVisual :<c-u>call msearch#toggle_add(v:true)<cr>
+noremap <silent> <unique> <script> <Plug>MSExclusiveAddVisual :<c-u>call msearch#exclusive_add(v:true)<cr>
 noremap <silent> <unique> <script> <Plug>MSClear :call msearch#clear()<cr>
 noremap <silent> <unique> <script> <Plug>MSToggleJump :call msearch#toggle_jump()<cr>
 noremap <silent> <unique> <script> <Plug>MSNext :call msearch#jump()<cr>
@@ -21,6 +21,14 @@ noremap <silent> <unique> <script> <Plug>MSCurNext :call msearch#jump_cur('')<cr
 noremap <silent> <unique> <script> <Plug>MSCurPrev :call msearch#jump_cur('b')<cr>
 noremap <unique> <script> <Plug>MSAddBySearchForward :call msearch#start_add_by_search(v:false)<cr>/
 noremap <unique> <script> <Plug>MSAddBySearchBackward :call msearch#start_add_by_search(v:true)<cr>?
+
+
+" Deprecated mappings
+noremap <silent> <unique> <script> <Plug>MSToggleAdd :throw "Deprecated: use MSToggleAddCword instead"<cr>
+noremap <silent> <unique> <script> <Plug>MSExclusiveAdd :throw "Deprecated: use MSExclusiveAddCword instead"<cr>
+noremap <silent> <unique> <script> <Plug>MSVisualToggleAdd :<c-u>throw "Deprecated: use MSToggleAddVisual instead"<cr>
+noremap <silent> <unique> <script> <Plug>MSVisualExclusiveAdd :<c-u>throw "Deprecated: use MSExclusiveAddVisual instead"<cr>
+
 
 let g:Msearch_palette_fn = get(g:,'Msearch_palette_fn', function('msearch#palettes#default'))
 
