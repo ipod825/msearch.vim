@@ -19,8 +19,8 @@ noremap <silent> <unique> <script> <Plug>MSAllNext :call msearch#jump_all('')<cr
 noremap <silent> <unique> <script> <Plug>MSAllPrev :call msearch#jump_all('b')<cr>
 noremap <silent> <unique> <script> <Plug>MSCurNext :call msearch#jump_cur('')<cr>
 noremap <silent> <unique> <script> <Plug>MSCurPrev :call msearch#jump_cur('b')<cr>
-noremap <silent> <unique> <script> <Plug>MSAddBySearchForward :call msearch#start_add_by_search(v:false)<cr>/
-noremap <silent> <unique> <script> <Plug>MSAddBySearchBackward :call msearch#start_add_by_search(v:true)<cr>?
+noremap <unique> <script> <Plug>MSAddBySearchForward :call msearch#start_add_by_search(v:false)<cr>/
+noremap <unique> <script> <Plug>MSAddBySearchBackward :call msearch#start_add_by_search(v:true)<cr>?
 
 let g:Msearch_palette_fn = get(g:,'Msearch_palette_fn', function('msearch#palettes#default'))
 
