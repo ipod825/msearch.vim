@@ -179,6 +179,8 @@ function!msearch#search(target, search_flag)
         endif
     elseif line('.') < l:line
             echohl WarningMsg | echo "search hit BOTTOM, continuing at TOP" | echohl None
+    else
+        echo
     endif
 endfunction
 
