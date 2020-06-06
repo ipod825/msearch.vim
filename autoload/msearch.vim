@@ -167,8 +167,23 @@ function! msearch#jump(...)
     endif
 endfunction
 
+function!msearch#search(target, search_flag)
+    let l:line = line('.')
+    let l:col = col('.')
+    call search(a:target, a:search_flag)
+    if line('.') == l:line && col('.') == l:col
+        echohl WarningMsg | echo "No more match for ".a:target | echohl None
+    elseif a:search_flag=~'b'
+        if line('.') > l:line
+            echohl WarningMsg | echo "search hit TOP, continuing at BOTTOM" | echohl None
+        endif
+    elseif line('.') < l:line
+            echohl WarningMsg | echo "search hit BOTTOM, continuing at TOP" | echohl None
+    endif
+endfunction
+
 function! msearch#jump_all(search_flag)
-    call search(msearch#joint_pattern(), a:search_flag)
+    call msearch#search(msearch#joint_pattern(), a:search_flag)
 endfunction
 
 function! msearch#jump_cur(search_flag)
@@ -192,7 +207,7 @@ function! msearch#jump_cur(search_flag)
             let s:cur_search_pattern = s:AsWordPattern(s:cur_search_pattern)
         endif
     else
-        call search(s:cur_search_pattern, a:search_flag)
+        call msearch#search(s:cur_search_pattern, a:search_flag)
     endif
 endfunction
 
