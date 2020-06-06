@@ -4,6 +4,7 @@ let s:palette = get(s:, 'palette', [])
 let s:next_ind = get(s:, 'next_ind', 0)
 let s:color_map = get(s:, 'color_map', {})
 let s:highlight_defined = get(s:, 'highlight_defined', v:false)
+let s:cur_search_pattern = get(s:, 'cur_search_pattern', '')
 let s:op_times = 0
 
 function! s:VisualSelection()
@@ -99,7 +100,7 @@ function! msearch#matchadd(pattern, ind)
     let s:color_map[a:pattern] = a:ind
     let w:match_id_map = get(w:, 'match_id_map', {})
     let w:match_id_map[a:pattern] = matchadd('MSMatch'.a:ind, a:pattern)
-
+    let s:cur_search_pattern = a:pattern
     call msearch#refresh_all_win()
 endfunction
 
@@ -131,6 +132,7 @@ function! msearch#remove(pattern, ind, visual)
     if a:visual
         unlet s:visual_patterns[a:pattern]
     endif
+    let s:cur_search_pattern = ''
 endfunction
 
 function! msearch#clear()
@@ -169,7 +171,6 @@ function! msearch#jump_all(search_flag)
     call search(msearch#joint_pattern(), a:search_flag)
 endfunction
 
-let s:cur_search_pattern = get(s:, 'cur_search_pattern', '')
 function! msearch#jump_cur(search_flag)
     let l:cur_line = getline('.')
 
