@@ -1,5 +1,5 @@
 let s:patterns = get(s:, 'patterns', [])
-let s:visual_patterns = get(s:, 'visual_patterns', [])
+let s:non_word_patterns = get(s:, 'non_word_patterns', [])
 let s:palette = get(s:, 'palette', [])
 let s:next_ind = get(s:, 'next_ind', 0)
 let s:color_map = get(s:, 'color_map', {})
@@ -49,7 +49,7 @@ function! msearch#end_add_by_search()
     let l:ind = index(msearch#list(), l:search_pat)
     if l:ind == -1
         call msearch#define_highlight(v:false)
-        call msearch#add(l:search_pat, match(l:search_pat, '\\<.*\\>')>-1)
+        call msearch#add(l:search_pat, match(l:search_pat, '\\<.*\\>')==-1)
         let s:cur_search_pattern = l:search_pat
     endif
     let @/=""
@@ -104,7 +104,7 @@ function! msearch#matchadd(pattern, ind)
     call msearch#refresh_all_win()
 endfunction
 
-function! msearch#add(pattern, visual)
+function! msearch#add(pattern, non_word)
     call msearch#matchadd(a:pattern, s:next_ind)
     if s:next_ind == len(s:patterns)
         call add(s:patterns, a:pattern)
@@ -119,8 +119,8 @@ function! msearch#add(pattern, visual)
             let s:next_ind += 1
         endwhile
     endif
-    if a:visual
-        call add(s:visual_patterns, a:pattern)
+    if a:non_word
+        call add(s:non_word_patterns, a:pattern)
     endif
 endfunction
 
@@ -130,7 +130,7 @@ function! msearch#remove(pattern, ind, visual)
     let s:patterns[a:ind] = ''
     let s:next_ind = index(s:patterns, '')
     if a:visual
-        unlet s:visual_patterns[a:pattern]
+        unlet s:non_word_patterns[a:pattern]
     endif
     let s:cur_search_pattern = ''
 endfunction
@@ -139,7 +139,7 @@ function! msearch#clear()
     call clearmatches()
     let w:match_id_map = {}
     let s:patterns = []
-    let s:visual_patterns = []
+    let s:non_word_patterns = []
     let s:color_map = {}
     let s:next_ind = 0
     call s:inc_op_times()
@@ -195,7 +195,7 @@ function! msearch#jump_cur(search_flag)
     if index(s:patterns, l:pat_under_cursor)>-1
         let s:cur_search_pattern = l:pat_under_cursor
     else
-        for p in s:visual_patterns
+        for p in s:non_word_patterns
             if match(l:cur_line, p) > -1
                 let s:cur_search_pattern = p
             endif
