@@ -37,6 +37,8 @@ function! msearch#exclusive_add(visual)
 endfunction
 
 function! msearch#start_add_by_search(back)
+    let @/=""
+    set hlsearch
     autocmd CursorMoved * ++once silent call msearch#end_add_by_search()
 endfunction
 
@@ -52,7 +54,7 @@ function! msearch#end_add_by_search()
         call msearch#add(l:search_pat, match(l:search_pat, '\\<.*\\>')==-1)
         let s:cur_search_pattern = l:search_pat
     endif
-    let @/=""
+    set nohlsearch
 endfunction
 
 function! msearch#define_highlight(force)
