@@ -135,6 +135,7 @@ function! msearch#remove(pattern, ind, visual)
         unlet s:non_word_patterns[a:pattern]
     endif
     let s:cur_search_pattern = ''
+    call msearch#refresh_all_win()
 endfunction
 
 function! msearch#clear()
