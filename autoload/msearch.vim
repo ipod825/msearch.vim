@@ -93,7 +93,7 @@ function! msearch#refresh_all_win()
     let l:orig_winnr = winnr()
     noautocmd wincmd W
     while winnr()!=orig_winnr
-        call msearch#refresh_cur_win(0)
+        call msearch#refresh_cur_win()
         noautocmd wincmd W
     endwhile
 endfunction
@@ -216,7 +216,7 @@ function! msearch#jump_cur(search_flag)
     endif
 endfunction
 
-function! msearch#refresh_cur_win(timer)
+function! msearch#refresh_cur_win()
     if get(w:, 'msearch_op_times', 0) != s:op_times
         let w:msearch_op_times = s:op_times
         call clearmatches()

@@ -34,7 +34,7 @@ let g:Msearch_palette_fn = get(g:,'Msearch_palette_fn', function('msearch#palett
 
 augroup MSearchAugroup
     autocmd!
-    autocmd! WinEnter * call timer_start(1, 'msearch#refresh_cur_win')
+    autocmd! WinEnter * call msearch#refresh_cur_win()
     autocmd! TabEnter * call msearch#refresh_all_win()
     autocmd! ColorScheme * call msearch#define_highlight(v:true)
 augroup END
