@@ -146,6 +146,7 @@ function! msearch#clear()
     let s:color_map = {}
     let s:next_ind = 0
     call s:inc_op_times()
+    call msearch#refresh_all_win()
 endfunction
 
 function! msearch#list()
