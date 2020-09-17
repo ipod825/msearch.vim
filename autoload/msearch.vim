@@ -23,7 +23,7 @@ function! s:VisualSelection()
         echoerr "Msearch does not support multiple line search"
     endif
 
-    return escape(getline(line_start)[column_start-1:column_end-1], '\^[]')
+    return escape(getline(line_start)[column_start-1:column_end-1], '\^[]*')
 endfunction
 
 function! s:inc_op_times()
