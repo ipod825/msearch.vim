@@ -174,7 +174,13 @@ endfunction
 function!msearch#search(target, search_flag)
     let l:line = line('.')
     let l:col = col('.')
+    let l:back_ignorecase = &ignorecase
+    let l:back_smartcase = &smartcase
+    set nosmartcase
+    set noignorecase
     call search(a:target, a:search_flag)
+    let &ignorecase = l:back_ignorecase
+    let &smartcase = l:back_smartcase
     if line('.') == l:line && col('.') == l:col
         echohl WarningMsg | echo "No more match for ".a:target | echohl None
     elseif a:search_flag=~'b'
