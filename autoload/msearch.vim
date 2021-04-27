@@ -19,15 +19,18 @@ function! s:VisualSelection()
         let [line_start, column_start, line_end, column_end] =
         \   [line_end, column_end, line_start, column_start]
     end
-    " if line_start != line_end
-    "     echoerr "Msearch does not support multiple line search"
-    " endif
 
-    let res = escape(getline(line_start)[column_start-1:column_end-1], '\^[]*') 
-    for i in range(line_start+1, line_end)
-        let res = res .. '\n' .. escape(getline(i)[column_start-1:column_end-1], '\^[]*') 
+    if line_start == line_end
+        let res = escape(getline(line_start)[column_start-1:column_end-1], '\^[]*') 
+    else
+        let res = escape(getline(line_start)[column_start-1:], '\^[]*') 
+        for i in range(line_start+1, line_end-1)
+            let res = res .. '\n' .. escape(getline(i), '\^[]*') 
 
-    endfor
+        endfor
+        let res = res .. '\n' .. escape(getline(line_end)[:column_end-1], '\^[]*') 
+    end
+
     return res
 endfunction
 
